@@ -1,0 +1,63 @@
+@import "~material-icons/iconfont/material-icons.css";
+@import "themes.scss";
+@import "inputs.scss";
+@import "buttons.scss";
+@import "panes.scss";
+@import "typography.scss";
+@import "alerts.scss";
+
+html,
+body {
+  margin: 0;
+  height: 0;
+  background-color: var(--color-surface-0);
+  color: var(--color-text-0);
+  font-size: 12px;
+  min-height: 100vh;
+  max-width: 100vw;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+* {
+  box-sizing: border-box;
+  user-select: none;
+  &::-webkit-scrollbar,
+  *::-webkit-scrollbar {
+    width: 4px;
+    height: 8px;
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb,
+  *::-webkit-scrollbar-thumb {
+    background: var(--color-surface-4);
+    border-radius: 2px;
+  }
+
+  &::-webkit-scrollbar-track-piece,
+  *::-webkit-scrollbar-track-piece {
+    display: none;
+  }
+}
+
+a,
+a:visited,
+a:hover,
+a:focus,
+a:active {
+  color: var(--color-primary);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+i.material-icons {
+  font-size: 1.5em;
+}
+
+img {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}

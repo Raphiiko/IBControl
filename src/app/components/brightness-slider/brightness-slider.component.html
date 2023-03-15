@@ -1,0 +1,13 @@
+<div class="container" #containerEl>
+  <div class="track" #trackEl>
+    <div class="track-100-mark" #markEl [style.left]="markOffsetStyle"></div>
+  </div>
+  <div
+    class="thumb"
+    #thumbEl
+    (mousedown)="onDragStart()"
+    [style.left]="thumbOffsetStyle"
+  >
+    <span class="percentage">{{ _value | async }}%</span>
+  </div>
+</div>

@@ -1,0 +1,136 @@
+name: 'Development Build'
+on:
+  push:
+    branches:
+      - develop
+    paths:
+      - scripts/**
+      - src/**
+      - src-tauri/**
+      - .github/workflows/**
+      - angular.json
+      - tsconfig.json
+      - tsconfig.app.json
+      - package.json
+      - CHANGELOG.md
+
+jobs:
+  build-dev-release:
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [windows-latest]
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup NodeJS
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+      - name: Install NodeJS dependencies
+        run: npm install
+      - name: Set app version to DEV version
+        run: npm run set-version DEV
+      - name: Get Changelog Entry
+        id: changelog_reader
+        uses: mindsers/changelog-reader-action@v2
+        with:
+          validation_level: warn
+          version: Unreleased
+          path: ./CHANGELOG.md
+      - name: Install Rust stable toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          default: true
+          override: true
+      #      - name: install dependencies (ubuntu only)
+      #        if: matrix.platform == 'ubuntu-20.04'
+      #        run: |
+      #          sudo apt-get update
+      #          sudo apt-get install -y libgtk-3-dev webkit2gtk-4.0 libappindicator3-dev librsvg2-dev patchelf
+      - name: Configure Rust cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: |
+            src-shared
+            src-elevated-sidecar
+            src-tauri
+      - name: Delete new development release and tag if they exist
+        uses: dev-drprasad/delete-tag-and-release@v0.2.0
+        continue-on-error: true
+        with:
+          delete_release: true
+          tag_name: ibcontrol-vDEV-new
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: Raphiiko/tauri-action@dev
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+          TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
+        with:
+          tagName: ibcontrol-vDEV-new
+          releaseName: Oyasumi Development Build
+          releaseBody: ${{ steps.changelog_reader.outputs.changes }}
+          releaseDraft: false
+          prerelease: true
+          includeDebug: true
+          includeRelease: false
+      - name: Get current development release ID if it exists
+        uses: actions/github-script@v6
+        continue-on-error: true
+        id: get-current-release-id
+        with:
+          script: |
+            const release = await github.rest.repos.getReleaseByTag({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag: "ibcontrol-vDEV"
+            })
+            return release.data.id
+      - name: Get new development release ID
+        uses: actions/github-script@v6
+        id: get-new-release-id
+        with:
+          script: |
+            const release = await github.rest.repos.getReleaseByTag({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag: "ibcontrol-vDEV-new"
+            })
+            return release.data.id
+      - name: Delete current development release and tag if they exist
+        uses: dev-drprasad/delete-tag-and-release@v0.2.0
+        continue-on-error: true
+        with:
+          delete_release: true # default: false
+          tag_name: ibcontrol-vDEV
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create development tag on current commit
+        uses: EndBug/latest-tag@latest
+        with:
+          ref: ibcontrol-vDEV
+      - name: Set new tag on new development release
+        uses: actions/github-script@v6
+        env:
+          release_id: ${{ steps.get-new-release-id.outputs.result }}
+        with:
+          script: |
+            github.rest.repos.updateRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: process.env.release_id,
+              tag_name: "ibcontrol-vDEV"
+            })
+      - name: Delete temporary development tag
+        uses: dev-drprasad/delete-tag-and-release@v0.2.0
+        with:
+          tag_name: ibcontrol-vDEV-new
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

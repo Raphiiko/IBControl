@@ -1,0 +1,23 @@
+@import "shadows.scss";
+
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+.alert {
+  margin-bottom: 1em;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  .title {
+    font-size: 1.25em;
+  }
+}

@@ -1,0 +1,64 @@
+@import "shadows.scss";
+
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+
+  &-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 3em;
+    padding: 1em;
+    background: var(--color-surface-0);
+
+    span {
+      font-size: 1.25em;
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .actions {
+      flex-shrink: 0;
+
+      button {
+        padding: 0;
+      }
+    }
+  }
+
+  &-image {
+    height: 8em;
+    background-image: url("/assets/img/index_bg_1.jpg");
+    background-size: cover;
+    background-position: 50% 70%;
+    @include innerShadow(5, true);
+  }
+}
+
+.slider-pane {
+  border-radius: var(--surface-border-radius);
+  background: var(--color-surface-1);
+  padding: 0.5em;
+
+  span {
+    margin-left: 0.5em;
+    margin-top: 0.5em;
+  }
+}
+
+.warning-icon {
+  font-size: 1.5em;
+  color: var(--color-warning);
+}

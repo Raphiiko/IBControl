@@ -1,0 +1,5 @@
+package-lock.json
+dist
+.angulardoc.json
+.vscode/*
+lib

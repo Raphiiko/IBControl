@@ -1,0 +1,62 @@
+@import "shadows.scss";
+
+:host {
+  width: 100%;
+}
+
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 5em;
+  position: relative;
+  align-items: center;
+}
+
+.track {
+  background: var(--color-surface-3);
+  height: 0.5em;
+  border-radius: 0.25em;
+  width: calc(100% - 3em);
+  position: relative;
+  overflow: hidden;
+
+  .track-100-mark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0.25em;
+    height: 100%;
+    background: var(--color-surface-5);
+  }
+}
+
+.thumb {
+  width: 3em;
+  height: 3em;
+  border-radius: 1.5em;
+  background-color: var(--color-surface-4);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: calc(50% - 1.5em);
+  left: 0;
+  @include shadow(2, true);
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover {
+    @include shadow(4, true);
+    background-color: var(--color-surface-5);
+  }
+
+  .percentage {
+    font-size: 0.9em;
+    color: var(--color-text-1);
+    font-weight: 600;
+  }
+}

@@ -1,0 +1,45 @@
+@import "~@fontsource/golos-ui/index.css";
+@import "~@fontsource/golos-ui/400.css";
+@import "~@fontsource/golos-ui/500.css";
+@import "~@fontsource/golos-ui/600.css";
+
+* {
+  font-family: "Golos UI", sans-serif;
+  letter-spacing: 0.025em;
+}
+
+p {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 0;
+  font-weight: 400;
+}
+
+.nowrap {
+  word-break: keep-all;
+  white-space: nowrap;
+}
+
+h1 {
+  font-size: 2em;
+}
+
+h2 {
+  font-size: 1.5em;
+}
+
+h3 {
+  font-size: 1.25em;
+}
+
+p,
+ol,
+ul {
+  color: var(--color-text-2);
+}

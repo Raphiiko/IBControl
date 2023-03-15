@@ -1,0 +1,62 @@
+<div class="header">
+  <div class="header-title">
+    <span>Index Brightness Control</span>
+    <div class="actions">
+<!--      <button class="btn">About</button>-->
+    </div>
+  </div>
+  <div class="header-image"></div>
+</div>
+<div class="content">
+  <div class="slider-pane">
+    <span>Direct Brightness Control</span>
+    <app-brightness-slider></app-brightness-slider>
+  </div>
+  <div class="settings-pane">
+    <div class="setting-row">
+      <div class="setting-label">
+        <span>Enable OSC Control</span>
+        <span>Allow display brightness to be controlled over OSC</span>
+      </div>
+      <div class="setting-value">
+        <i
+          class="material-icons-round warning-icon"
+          @hshrink
+          *ngIf="osc.showError | async"
+          >warning</i
+        >
+        <button class="btn btn-settings" [routerLink]="['/oscsettings']">
+          <i class="material-icons">settings</i>
+        </button>
+        <label class="switch-toggle">
+          <input
+            type="checkbox"
+            [checked]="settings.oscControlEnabled"
+            (change)="toggleOSCControl()"
+          />
+          <span class="switch-toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+
+<!--    <div class="setting-row">-->
+<!--      <div class="setting-label">-->
+<!--        <span>Enable HTTP Control</span>-->
+<!--        <span>Allow display brightness to be controlled over HTTP</span>-->
+<!--      </div>-->
+<!--      <div class="setting-value">-->
+<!--        <button class="btn btn-settings">-->
+<!--          <i class="material-icons">settings</i>-->
+<!--        </button>-->
+<!--        <label class="switch-toggle">-->
+<!--          <input-->
+<!--            type="checkbox"-->
+<!--            [checked]="settings.httpControlEnabled"-->
+<!--            (change)="toggleHTTPControl()"-->
+<!--          />-->
+<!--          <span class="switch-toggle-slider"></span>-->
+<!--        </label>-->
+<!--      </div>-->
+<!--    </div>-->
+  </div>
+</div>

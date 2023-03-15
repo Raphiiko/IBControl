@@ -1,0 +1,61 @@
+name: 'Release Build'
+on:
+  push:
+    branches:
+      - master
+      - main
+
+jobs:
+  build-release:
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [windows-latest]
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get Package Version
+        id: get-package-version
+        uses: stevenbenitez/get-package-version-action@v1
+      - name: Get Changelog Entry
+        id: changelog_reader
+        uses: mindsers/changelog-reader-action@v2
+        with:
+          validation_level: warn
+          version: ${{ steps.get-package-version.outputs.version }}
+          path: ./CHANGELOG.md
+      - name: Setup NodeJS
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+      - name: Install NodeJS dependencies
+        run: npm install
+      - name: Install Rust stable toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          default: true
+          override: true
+      #      - name: install dependencies (ubuntu only)
+      #        if: matrix.platform == 'ubuntu-20.04'
+      #        run: |
+      #          sudo apt-get update
+      #          sudo apt-get install -y libgtk-3-dev webkit2gtk-4.0 libappindicator3-dev librsvg2-dev patchelf
+      - name: Configure Rust cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: |
+            src-shared
+            src-elevated-sidecar
+            src-tauri
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+          TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
+        with:
+          tagName: ibcontrol-v${{ steps.get-package-version.outputs.version }}
+          releaseName: Oyasumi v${{ steps.get-package-version.outputs.version }}
+          releaseBody: ${{ steps.changelog_reader.outputs.changes }}
+          releaseDraft: false
