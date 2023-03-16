@@ -12,6 +12,9 @@ import { BrightnessSliderComponent } from './components/brightness-slider/bright
 import { OscSettingsViewComponent } from './views/osc-settings-view/osc-settings-view.component';
 import { OscControlService } from './services/osc-control.service';
 import { BrightnessControlService } from './services/brightness-control/brightness-control.service';
+import { MainStatusBarComponent } from './components/main-status-bar/main-status-bar.component';
+import { VarDirective } from './directives/var.directive';
+import { ImageFallbackDirective } from './directives/image-fallback.directive';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -20,6 +23,9 @@ import { BrightnessControlService } from './services/brightness-control/brightne
     DashboardViewComponent,
     BrightnessSliderComponent,
     OscSettingsViewComponent,
+    MainStatusBarComponent,
+    VarDirective,
+    ImageFallbackDirective,
   ],
   imports: [
     CommonModule,

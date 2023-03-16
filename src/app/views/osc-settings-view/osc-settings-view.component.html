@@ -1,267 +1,267 @@
-<div class="content">
-  <div class="header">
-    <div class="row">
-      <button class="btn btn-secondary" [routerLink]="['/dashboard']">
-        <i class="material-icons" style="font-size: 1em">arrow_back_ios</i>
-        <span>Back</span>
-      </button>
-      <span>&nbsp;|&nbsp;</span>
-      <button class="btn btn-secondary" (click)="resetDefaults()">
-        <span>Reset to Defaults</span>
-      </button>
-    </div>
-    <span class="title">OSC Control Settings</span>
+<div class="header">
+  <div class="row">
+    <button class="btn btn-secondary" [routerLink]="['/dashboard']">
+      <i class="material-icons" style="font-size: 1em">arrow_back_ios</i>
+      <span>Back</span>
+    </button>
+    <span>&nbsp;|&nbsp;</span>
+    <button class="btn btn-secondary" (click)="resetDefaults()">
+      <span>Reset to Defaults</span>
+    </button>
   </div>
-  <div class="settings-pane">
-    <div class="setting-row">
-      <div class="setting-label">
-        <span>VRChat Brightness Range</span>
-        <span>Limit the range of brightness you can control from VRChat.</span>
-      </div>
-      <div class="setting-value">
-        <input
-          type="number"
-          maxlength="3"
-          [value]="vrchatBrightnessRangeMin"
-          (input)="
+  <span class="title">OSC Control Settings</span>
+</div>
+<div class="scrolling-area">
+    <div class="settings-pane">
+      <div class="setting-row">
+        <div class="setting-label">
+          <span>VRChat Brightness Range</span>
+          <span>Limit the range of brightness you can control from VRChat.</span>
+        </div>
+        <div class="setting-value">
+          <input
+            type="number"
+            maxlength="3"
+            [value]="vrchatBrightnessRangeMin"
+            (input)="
             vrchatBrightnessRangeMinChange.next(
               vrchatBrightnessRangeMinInput.value
             )
           "
-          #vrchatBrightnessRangeMinInput
-          style="max-width: 5em"
-        />
-        <span>-</span>
-        <input
-          type="number"
-          maxlength="3"
-          [value]="vrchatBrightnessRangeMax"
-          (input)="
+            #vrchatBrightnessRangeMinInput
+            style="max-width: 5em"
+          />
+          <span>-</span>
+          <input
+            type="number"
+            maxlength="3"
+            [value]="vrchatBrightnessRangeMax"
+            (input)="
             vrchatBrightnessRangeMaxChange.next(
               vrchatBrightnessRangeMaxInput.value
             )
           "
-          #vrchatBrightnessRangeMaxInput
-          style="max-width: 5em"
-        />
+            #vrchatBrightnessRangeMaxInput
+            style="max-width: 5em"
+          />
+        </div>
       </div>
-    </div>
 
-    <div class="setting-row">
-      <div class="setting-label">
-        <span>Receiving Host</span>
-        <span
-          >The host IBControl will listen for OSC messages on.<br />(VRChat
+      <div class="setting-row">
+        <div class="setting-label">
+          <span>Receiving Host</span>
+          <span
+          >The host IBControl will listen for OSC messages on.<br/>(VRChat
           sends to 127.0.0.1 by default)</span
-        >
-      </div>
-      <div class="setting-value">
-        <i
-          @hshrink
-          class="material-icons-round"
-          style="color: var(--color-vrchat-status-green)"
-          *ngIf="oscReceivingHostStatus === 'OK'"
+          >
+        </div>
+        <div class="setting-value">
+          <i
+            @hshrink
+            class="material-icons-round"
+            style="color: var(--color-vrchat-status-green)"
+            *ngIf="oscReceivingHostStatus === 'OK'"
           >check</i
-        >
-        <i
-          @hshrink
-          class="material-icons-round"
-          style="color: var(--color-vrchat-status-red)"
-          *ngIf="oscReceivingHostStatus === 'ERROR'"
+          >
+          <i
+            @hshrink
+            class="material-icons-round"
+            style="color: var(--color-vrchat-status-red)"
+            *ngIf="oscReceivingHostStatus === 'ERROR'"
           >error</i
-        >
-        <div
-          @hshrink
-          class="small-spinner"
-          *ngIf="oscReceivingHostStatus === 'CHECKING'"
-        ></div>
-        <input
-          class="port-input"
-          type="text"
-          [maxLength]="253"
-          [value]="oscReceivingHost"
-          (input)="oscReceivingHostChange.next(oscReceivingHostInput.value)"
-          #oscReceivingHostInput
-        />
-      </div>
-    </div>
-    <div
-      class="setting-alert-row"
-      @vshrink
-      *ngIf="oscReceivingHostStatus === 'ERROR' && oscReceivingHostError"
-    >
-      <div class="alert error">
-        <div class="alert-bg"></div>
-        <div class="alert-icon">
-          <i class="material-icons"> error </i>
-        </div>
-        <div class="alert-content">
-          {{ errorMessages[oscReceivingHostError] }}
+          >
+          <div
+            @hshrink
+            class="small-spinner"
+            *ngIf="oscReceivingHostStatus === 'CHECKING'"
+          ></div>
+          <input
+            class="port-input"
+            type="text"
+            [maxLength]="253"
+            [value]="oscReceivingHost"
+            (input)="oscReceivingHostChange.next(oscReceivingHostInput.value)"
+            #oscReceivingHostInput
+          />
         </div>
       </div>
-    </div>
-    <div class="setting-row">
-      <div class="setting-label">
-        <span>Receiving Port</span>
-        <span
-          >The port number IBControl will listen for OSC messages on.<br />(VRChat
+      <div
+        class="setting-alert-row"
+        @vshrink
+        *ngIf="oscReceivingHostStatus === 'ERROR' && oscReceivingHostError"
+      >
+        <div class="alert error">
+          <div class="alert-bg"></div>
+          <div class="alert-icon">
+            <i class="material-icons"> error </i>
+          </div>
+          <div class="alert-content">
+            {{ errorMessages[oscReceivingHostError] }}
+          </div>
+        </div>
+      </div>
+      <div class="setting-row">
+        <div class="setting-label">
+          <span>Receiving Port</span>
+          <span
+          >The port number IBControl will listen for OSC messages on.<br/>(VRChat
           sends to port 9001 by default)</span
-        >
-      </div>
-      <div class="setting-value">
-        <i
-          @hshrink
-          class="material-icons-round"
-          style="color: var(--color-vrchat-status-green)"
-          *ngIf="oscReceivingPortStatus === 'OK'"
+          >
+        </div>
+        <div class="setting-value">
+          <i
+            @hshrink
+            class="material-icons-round"
+            style="color: var(--color-vrchat-status-green)"
+            *ngIf="oscReceivingPortStatus === 'OK'"
           >check</i
-        >
-        <i
-          @hshrink
-          class="material-icons-round"
-          style="color: var(--color-vrchat-status-red)"
-          *ngIf="oscReceivingPortStatus === 'ERROR'"
+          >
+          <i
+            @hshrink
+            class="material-icons-round"
+            style="color: var(--color-vrchat-status-red)"
+            *ngIf="oscReceivingPortStatus === 'ERROR'"
           >error</i
-        >
-        <div
-          @hshrink
-          class="small-spinner"
-          *ngIf="oscReceivingPortStatus === 'CHECKING'"
-        ></div>
-        <input
-          class="port-input"
-          type="number"
-          min="1"
-          max="65535"
-          [maxLength]="5"
-          [value]="oscReceivingPort"
-          (input)="oscReceivingPortChange.next(oscReceivingPortInput.value)"
-          #oscReceivingPortInput
-        />
-      </div>
-    </div>
-    <div
-      class="setting-alert-row"
-      @vshrink
-      *ngIf="oscReceivingPortStatus === 'ERROR' && oscReceivingPortError"
-    >
-      <div class="alert error">
-        <div class="alert-bg"></div>
-        <div class="alert-icon">
-          <i class="material-icons"> error </i>
-        </div>
-        <div class="alert-content">
-          {{ errorMessages[oscReceivingPortError] }}
+          >
+          <div
+            @hshrink
+            class="small-spinner"
+            *ngIf="oscReceivingPortStatus === 'CHECKING'"
+          ></div>
+          <input
+            class="port-input"
+            type="number"
+            min="1"
+            max="65535"
+            [maxLength]="5"
+            [value]="oscReceivingPort"
+            (input)="oscReceivingPortChange.next(oscReceivingPortInput.value)"
+            #oscReceivingPortInput
+          />
         </div>
       </div>
-    </div>
-    <div class="setting-row">
-      <div class="setting-label">
-        <span>Sending Host</span>
-        <span
-          >The host IBControl will send OSC messages to.<br />(If VRChat runs on
+      <div
+        class="setting-alert-row"
+        @vshrink
+        *ngIf="oscReceivingPortStatus === 'ERROR' && oscReceivingPortError"
+      >
+        <div class="alert error">
+          <div class="alert-bg"></div>
+          <div class="alert-icon">
+            <i class="material-icons"> error </i>
+          </div>
+          <div class="alert-content">
+            {{ errorMessages[oscReceivingPortError] }}
+          </div>
+        </div>
+      </div>
+      <div class="setting-row">
+        <div class="setting-label">
+          <span>Sending Host</span>
+          <span
+          >The host IBControl will send OSC messages to.<br/>(If VRChat runs on
           the same machine, this is 127.0.0.1)</span
-        >
-      </div>
-      <div class="setting-value">
-        <i
-          @hshrink
-          class="material-icons-round"
-          style="color: var(--color-vrchat-status-green)"
-          *ngIf="oscSendingHostStatus === 'OK'"
+          >
+        </div>
+        <div class="setting-value">
+          <i
+            @hshrink
+            class="material-icons-round"
+            style="color: var(--color-vrchat-status-green)"
+            *ngIf="oscSendingHostStatus === 'OK'"
           >check</i
-        >
-        <i
-          @hshrink
-          class="material-icons-round"
-          style="color: var(--color-vrchat-status-red)"
-          *ngIf="oscSendingHostStatus === 'ERROR'"
+          >
+          <i
+            @hshrink
+            class="material-icons-round"
+            style="color: var(--color-vrchat-status-red)"
+            *ngIf="oscSendingHostStatus === 'ERROR'"
           >error</i
-        >
-        <div
-          @hshrink
-          class="small-spinner"
-          *ngIf="oscSendingHostStatus === 'CHECKING'"
-        ></div>
-        <input
-          class="port-input"
-          type="text"
-          [maxLength]="253"
-          [value]="oscSendingHost"
-          (input)="oscSendingHostChange.next(oscSendingHostInput.value)"
-          #oscSendingHostInput
-        />
-      </div>
-    </div>
-    <div
-      class="setting-alert-row"
-      @vshrink
-      *ngIf="oscSendingHostStatus === 'ERROR' && oscSendingHostError"
-    >
-      <div class="alert error">
-        <div class="alert-bg"></div>
-        <div class="alert-icon">
-          <i class="material-icons"> error </i>
-        </div>
-        <div class="alert-content">
-          {{ errorMessages[oscSendingHostError] }}
+          >
+          <div
+            @hshrink
+            class="small-spinner"
+            *ngIf="oscSendingHostStatus === 'CHECKING'"
+          ></div>
+          <input
+            class="port-input"
+            type="text"
+            [maxLength]="253"
+            [value]="oscSendingHost"
+            (input)="oscSendingHostChange.next(oscSendingHostInput.value)"
+            #oscSendingHostInput
+          />
         </div>
       </div>
-    </div>
-    <div class="setting-row">
-      <div class="setting-label">
-        <span>Sending Port</span>
-        <span
-          >The port number Oyasumi will send OSC messages to.<br />(VRChat
+      <div
+        class="setting-alert-row"
+        @vshrink
+        *ngIf="oscSendingHostStatus === 'ERROR' && oscSendingHostError"
+      >
+        <div class="alert error">
+          <div class="alert-bg"></div>
+          <div class="alert-icon">
+            <i class="material-icons"> error </i>
+          </div>
+          <div class="alert-content">
+            {{ errorMessages[oscSendingHostError] }}
+          </div>
+        </div>
+      </div>
+      <div class="setting-row">
+        <div class="setting-label">
+          <span>Sending Port</span>
+          <span
+          >The port number Oyasumi will send OSC messages to.<br/>(VRChat
           listens on port 9000 by default)</span
-        >
-      </div>
-      <div class="setting-value">
-        <i
-          @hshrink
-          class="material-icons-round"
-          style="color: var(--color-vrchat-status-green)"
-          *ngIf="oscSendingPortStatus === 'OK'"
+          >
+        </div>
+        <div class="setting-value">
+          <i
+            @hshrink
+            class="material-icons-round"
+            style="color: var(--color-vrchat-status-green)"
+            *ngIf="oscSendingPortStatus === 'OK'"
           >check</i
-        >
-        <i
-          @hshrink
-          class="material-icons-round"
-          style="color: var(--color-vrchat-status-red)"
-          *ngIf="oscSendingPortStatus === 'ERROR'"
+          >
+          <i
+            @hshrink
+            class="material-icons-round"
+            style="color: var(--color-vrchat-status-red)"
+            *ngIf="oscSendingPortStatus === 'ERROR'"
           >error</i
-        >
-        <div
-          @hshrink
-          class="small-spinner"
-          *ngIf="oscSendingPortStatus === 'CHECKING'"
-        ></div>
-        <input
-          class="port-input"
-          type="number"
-          min="1"
-          max="65535"
-          [maxLength]="5"
-          [value]="oscSendingPort"
-          (input)="oscSendingPortChange.next(oscSendingPortInput.value)"
-          #oscSendingPortInput
-        />
-      </div>
-    </div>
-    <div
-      class="setting-alert-row"
-      @vshrink
-      *ngIf="oscSendingPortStatus === 'ERROR' && oscSendingPortError"
-    >
-      <div class="alert error">
-        <div class="alert-bg"></div>
-        <div class="alert-icon">
-          <i class="material-icons"> error </i>
-        </div>
-        <div class="alert-content">
-          {{ errorMessages[oscSendingPortError] }}
+          >
+          <div
+            @hshrink
+            class="small-spinner"
+            *ngIf="oscSendingPortStatus === 'CHECKING'"
+          ></div>
+          <input
+            class="port-input"
+            type="number"
+            min="1"
+            max="65535"
+            [maxLength]="5"
+            [value]="oscSendingPort"
+            (input)="oscSendingPortChange.next(oscSendingPortInput.value)"
+            #oscSendingPortInput
+          />
         </div>
       </div>
+      <div
+        class="setting-alert-row"
+        @vshrink
+        *ngIf="oscSendingPortStatus === 'ERROR' && oscSendingPortError"
+      >
+        <div class="alert error">
+          <div class="alert-bg"></div>
+          <div class="alert-icon">
+            <i class="material-icons"> error </i>
+          </div>
+          <div class="alert-content">
+            {{ errorMessages[oscSendingPortError] }}
+          </div>
+        </div>
     </div>
   </div>
 </div>

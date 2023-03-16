@@ -5,6 +5,22 @@
   flex-direction: column;
   align-items: stretch;
   justify-content: flex-start;
+  height: 100%;
+}
+
+.scrolling-area {
+  flex: 1;
+  overflow-y: overlay;
+  height: 100%;
+
+  &:after {
+    content: "";
+    height: 1em;
+    width: 100%;
+    display: block;
+  }
+
+  padding: 0 1em 1em 1em;
 }
 
 .alert {
@@ -16,6 +32,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  padding: 1em;
 
   .title {
     font-size: 1.25em;

@@ -5,6 +5,8 @@ on:
       - master
       - main
 
+permissions: read-all|write-all
+
 jobs:
   build-release:
     strategy:
