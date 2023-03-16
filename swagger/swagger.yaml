@@ -1,0 +1,88 @@
+openapi: 3.0.0
+info:
+  title: IBControl HTTP Control API
+  description: |-
+    Specification of the HTTP API for IBControl's HTTP Control API.
+    This API allows you to control the display brightness of a connected Valve Index VR Headset.
+  version: 0.1.0
+externalDocs:
+  description: IBControl GitHub Repository
+  url: http://github.com/Raphiiko/IBControl
+servers:
+  - url: http://127.0.0.1:42070
+    description: Local IBControl HTTP Control Server
+paths:
+  /brightness:
+    get:
+      summary: Get the current display brightness and bounds for the currently connected HMD
+      description: This only returns a value when the HMD is connected and connected to SteamVR.
+      responses:
+        '200':
+          description: The current display brightness and bounds
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  brightness:
+                    type: integer
+                    minimum: 20
+                    maximum: 160
+                  minimum:
+                    type: integer
+                  maximum:
+                    type: integer
+        '404':
+          description: The brightness could not be fetched because there is no active device.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                    enum:
+                      - STEAMVR_INACTIVE
+                      - HMD_UNAVAILABLE
+    put:
+      summary: Set the display brightness for the currently connected HMD
+      description: The brightness value set has to be within the bounds given by a GET on this same path.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                brightness:
+                  type: integer
+                  minimum: 20
+                  maximum: 160
+      responses:
+        '200':
+          description: The new display brightness and bounds
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  brightness:
+                    type: integer
+                    minimum: 20
+                    maximum: 160
+                  minimum:
+                    type: integer
+                  maximum:
+                    type: integer
+        '404':
+          description: The brightness could not be set because there is no active device.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                    enum:
+                      - STEAMVR_INACTIVE
+                      - HMD_UNAVAILABLE

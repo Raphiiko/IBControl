@@ -3,7 +3,7 @@
     windows_subsystem = "windows"
 )]
 
-use std::{net::UdpSocket, sync::Mutex};
+use std::{net::UdpSocket, path::PathBuf, sync::Mutex};
 
 use background::openvr::OpenVRManager;
 use log::LevelFilter;
@@ -18,9 +18,11 @@ lazy_static! {
     static ref TAURI_WINDOW: Mutex<Option<tauri::Window>> = Default::default();
     static ref OSC_SEND_SOCKET: Mutex<Option<UdpSocket>> = Default::default();
     static ref OSC_RECEIVE_SOCKET: Mutex<Option<UdpSocket>> = Default::default();
+    static ref SWAGGER_INDEX_PATH: Mutex<Option<PathBuf>> = Default::default();
 }
 
 mod background {
+    pub mod http;
     pub mod openvr;
     pub mod osc;
 }
@@ -29,6 +31,7 @@ mod models {
     pub mod ovrdevice;
 }
 mod commands {
+    pub mod http;
     pub mod openvr;
     pub mod osc;
 }
@@ -72,6 +75,12 @@ fn main() {
                 window.open_devtools();
             }
             *TAURI_WINDOW.lock().unwrap() = Some(window);
+            // Get swagger ui path
+            *SWAGGER_INDEX_PATH.lock().unwrap() = Some(
+                app.path_resolver()
+                    .resolve_resource("_up_/swagger/")
+                    .unwrap_or(PathBuf::from("")),
+            );
             // Initialize OpenVR Manager
             let openvr_manager = OpenVRManager::new();
             openvr_manager.set_active(true);
@@ -88,6 +97,9 @@ fn main() {
             commands::osc::osc_send_int,
             commands::osc::osc_init,
             commands::osc::osc_valid_addr,
+            commands::http::stop_http_server,
+            commands::http::start_http_server,
+            commands::http::respond_to_request,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

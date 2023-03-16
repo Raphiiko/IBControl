@@ -9,7 +9,8 @@
     "start": "ng serve",
     "build": "ng build",
     "set-version": "node scripts/set-version.js",
-    "watch": "ng build --watch --configuration development"
+    "watch": "ng build --watch --configuration development",
+    "postinstall": "node scripts/postinstall.js"
   },
   "dependencies": {
     "@angular/animations": "^15.0.0",
@@ -26,12 +27,14 @@
     "material-icons": "^1.13.2",
     "rxjs": "~7.8.0",
     "sass-material-colors": "^0.0.5",
+    "swagger-ui-dist": "^4.18.1",
     "tauri-plugin-log-api": "github:tauri-apps/tauri-plugin-log#dev",
     "tauri-plugin-store-api": "github:tauri-apps/tauri-plugin-store#dev",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"
   },
   "devDependencies": {
+    "@alumna/reflect": "^1.0.5",
     "@angular-devkit/build-angular": "^15.0.0",
     "@angular/cli": "~15.1.0",
     "@angular/compiler-cli": "^15.0.0",

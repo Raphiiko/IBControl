@@ -39,24 +39,30 @@
       </div>
     </div>
 
-<!--    <div class="setting-row">-->
-<!--      <div class="setting-label">-->
-<!--        <span>Enable HTTP Control</span>-->
-<!--        <span>Allow display brightness to be controlled over HTTP</span>-->
-<!--      </div>-->
-<!--      <div class="setting-value">-->
-<!--        <button class="btn btn-settings">-->
-<!--          <i class="material-icons">settings</i>-->
-<!--        </button>-->
-<!--        <label class="switch-toggle">-->
-<!--          <input-->
-<!--            type="checkbox"-->
-<!--            [checked]="settings.httpControlEnabled"-->
-<!--            (change)="toggleHTTPControl()"-->
-<!--          />-->
-<!--          <span class="switch-toggle-slider"></span>-->
-<!--        </label>-->
-<!--      </div>-->
-<!--    </div>-->
+    <div class="setting-row">
+      <div class="setting-label">
+        <span>Enable HTTP Control</span>
+        <span>Allow display brightness to be controlled over HTTP</span>
+      </div>
+      <div class="setting-value">
+        <i
+          class="material-icons-round warning-icon"
+          @hshrink
+          *ngIf="http.showError | async"
+        >warning</i
+        >
+        <button class="btn btn-settings" [routerLink]="['/httpsettings']">
+          <i class="material-icons">settings</i>
+        </button>
+        <label class="switch-toggle">
+          <input
+            type="checkbox"
+            [checked]="settings.httpControlEnabled"
+            (change)="toggleHTTPControl()"
+          />
+          <span class="switch-toggle-slider"></span>
+        </label>
+      </div>
+    </div>
   </div>
 </div>

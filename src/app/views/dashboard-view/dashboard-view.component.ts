@@ -5,6 +5,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { cloneDeep } from 'lodash';
 import { hshrink } from '../../utils/animations';
 import { OscService } from '../../services/osc.service';
+import { HttpControlService } from '../../services/http-control.service';
 
 @Component({
   selector: 'app-dashboard-view',
@@ -18,7 +19,8 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
 
   constructor(
     private appSettings: AppSettingsService,
-    protected osc: OscService
+    protected osc: OscService,
+    protected http: HttpControlService
   ) {}
 
   ngOnInit() {

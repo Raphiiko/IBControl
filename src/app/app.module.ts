@@ -15,6 +15,8 @@ import { BrightnessControlService } from './services/brightness-control/brightne
 import { MainStatusBarComponent } from './components/main-status-bar/main-status-bar.component';
 import { VarDirective } from './directives/var.directive';
 import { ImageFallbackDirective } from './directives/image-fallback.directive';
+import { HttpSettingsViewComponent } from './views/http-settings-view/http-settings-view.component';
+import { HttpControlService } from './services/http-control.service';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -26,6 +28,7 @@ import { ImageFallbackDirective } from './directives/image-fallback.directive';
     MainStatusBarComponent,
     VarDirective,
     ImageFallbackDirective,
+    HttpSettingsViewComponent,
   ],
   imports: [
     CommonModule,
@@ -41,7 +44,8 @@ export class AppModule {
     private appSettingsService: AppSettingsService,
     private oscService: OscService,
     private oscControl: OscControlService,
-    private brightnessControl: BrightnessControlService
+    private brightnessControl: BrightnessControlService,
+    private httpControl: HttpControlService
   ) {
     this.init();
   }
@@ -51,6 +55,7 @@ export class AppModule {
     await this.openvr.init();
     await this.brightnessControl.init();
     await this.oscService.init();
+    await this.httpControl.init();
     await this.oscControl.init();
   }
 }

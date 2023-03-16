@@ -57,7 +57,6 @@ export class BrightnessControlService {
     if (!(await firstValueFrom(this.driverIsAvailable())))
       throw 'DRIVER_UNAVAILABLE';
     if (percentage == this.brightness) return;
-
     this._brightness.next(percentage);
     await this.driver.value!.setBrightnessPercentage(percentage);
   }
