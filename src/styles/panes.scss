@@ -30,6 +30,12 @@
   .setting-row {
     display: flex;
     flex-direction: row;
+    transition: opacity .25s ease;
+
+    &.disabled {
+      pointer-events: none;
+      opacity: 0.5;
+    }
 
     .setting-label {
       flex: 1;

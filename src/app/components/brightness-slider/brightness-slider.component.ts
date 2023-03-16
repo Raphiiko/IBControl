@@ -5,6 +5,7 @@ import {
   ElementRef,
   HostListener,
   OnDestroy,
+  OnInit,
   ViewChild,
 } from '@angular/core';
 import { clamp } from '../../utils/number-utils';
@@ -13,6 +14,8 @@ import {
   BehaviorSubject,
   distinctUntilChanged,
   filter,
+  map,
+  Observable,
   skip,
   Subject,
   switchMap,
@@ -28,7 +31,9 @@ import { OpenVRService } from '../../services/openvr.service';
   templateUrl: './brightness-slider.component.html',
   styleUrls: ['./brightness-slider.component.scss'],
 })
-export class BrightnessSliderComponent implements AfterViewInit, OnDestroy {
+export class BrightnessSliderComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   private dragging = false;
   protected thumbOffsetStyle = '0';
   protected markOffsetStyle = '0';
@@ -38,6 +43,7 @@ export class BrightnessSliderComponent implements AfterViewInit, OnDestroy {
   private maxValue = 160;
   private snapValue = 100;
   private destroy$: Subject<void> = new Subject<void>();
+  protected disabled?: Observable<boolean>;
 
   @ViewChild('containerEl') containerEl?: ElementRef;
   @ViewChild('trackEl') trackEl?: ElementRef;
@@ -49,6 +55,12 @@ export class BrightnessSliderComponent implements AfterViewInit, OnDestroy {
     private openvr: OpenVRService,
     private cdr: ChangeDetectorRef
   ) {}
+
+  ngOnInit() {
+    this.disabled = this.brightnessControl
+      .driverIsAvailable()
+      .pipe(map((driverAvailable) => !driverAvailable));
+  }
 
   async ngAfterViewInit() {
     // Determine mark offset

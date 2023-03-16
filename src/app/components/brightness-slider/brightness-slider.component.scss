@@ -12,6 +12,11 @@
   height: 5em;
   position: relative;
   align-items: center;
+  transition: opacity .25s ease;
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
 }
 
 .track {

@@ -13,7 +13,7 @@
 </div>
 <div class="scrolling-area">
     <div class="settings-pane">
-      <div class="setting-row">
+      <div class="setting-row" [class.disabled]="!(driverAvailable | async)">
         <div class="setting-label">
           <span>VRChat Brightness Range</span>
           <span>Limit the range of brightness you can control from VRChat.</span>

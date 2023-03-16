@@ -4,7 +4,9 @@ import {
   combineLatest,
   debounceTime,
   distinctUntilChanged,
+  firstValueFrom,
   map,
+  Observable,
   of,
   startWith,
   Subject,
@@ -70,12 +72,15 @@ export class OscSettingsViewComponent implements OnInit, OnDestroy {
     invalidHost:
       'The host has to be a valid hostname, IPv4 address, or IPv6 address.',
   };
+  protected driverAvailable?: Observable<boolean>;
 
   constructor(
     private settingsService: AppSettingsService,
     private osc: OscService,
-    private brightnessControl: BrightnessControlService
-  ) {}
+    protected brightnessControl: BrightnessControlService
+  ) {
+    this.driverAvailable = this.brightnessControl.driverIsAvailable();
+  }
 
   ngOnInit() {
     this.listenForReceivingHostChanges();
@@ -140,8 +145,9 @@ export class OscSettingsViewComponent implements OnInit, OnDestroy {
         map(([min, max]) => [parseInt(min), parseInt(max)])
       )
       .subscribe(async ([min, max]) => {
-        const bounds =
-          await this.brightnessControl.driver!.getBrightnessBounds();
+        if (!(await firstValueFrom(this.brightnessControl.driverIsAvailable())))
+          return;
+        const bounds = await this.brightnessControl.getBrightnessBounds();
         min = clamp(min, bounds[0], bounds[1]);
         max = clamp(max, bounds[0], bounds[1]);
         if (min > max) {
