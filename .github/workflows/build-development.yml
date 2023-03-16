@@ -14,7 +14,7 @@ on:
       - package.json
       - CHANGELOG.md
 
-permissions: read-all|write-all
+permissions: write-all
 
 jobs:
   build-dev-release:
