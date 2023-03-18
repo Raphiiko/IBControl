@@ -1,6 +1,6 @@
 [package]
 name = "ibcontrol"
-version = "0.1.1"
+version = "1.0.0"
 description = "Display brightness control for the Valve Index"
 authors = ["Raphiiko"]
 license = "MIT"
@@ -18,7 +18,7 @@ openvr_sys = "2.0.3"
 rosc = "0.9.1"
 chrono = "0.4.23"
 serde = { version = "1.0", features = ["derive"] }
-tauri = { version = "1.2", features = ["notification-all", "shell-open", "updater"] }
+tauri = { version = "1.2", features = ["fs-all", "notification-all", "shell-open", "updater"] }
 tauri-plugin-single-instance = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "dev" }
 tauri-plugin-log = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "dev" }
 tauri-plugin-store = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "dev" }

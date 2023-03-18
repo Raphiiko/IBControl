@@ -1,6 +1,9 @@
 
 <h1 align="center">IBControl</h1>
 <h3 align="center">Display brightness control for Valve Index</h2>
+<p align="center">
+<img width="200px" src="https://user-images.githubusercontent.com/111654848/226119236-e8baaca8-961f-4046-829a-d022447975db.png">
+</p>
 
 <p align="center">
     <a><img alt="Latest Version" src="https://img.shields.io/github/v/tag/Raphiiko/IBControl?color=informational&label=version&sort=semver"></a>
@@ -27,10 +30,10 @@ Its main purpose is to allow VRChat players to control their display brightness 
 <td><p align="center"><b>About</b></p></td>
 </tr>
 <tr>
-<td><p align="center"><img src="https://user-images.githubusercontent.com/111654848/226115409-8bd19458-985b-48f4-9af5-2a09d1252198.png" width="100%" crossorigin></p></td>
-<td><p align="center"><img src="https://user-images.githubusercontent.com/111654848/226115413-c44f8c51-d32a-493c-8fac-125d65cca5ef.png" width="100%" crossorigin></p></td>
+<td><p align="center"><img src="https://user-images.githubusercontent.com/111654848/226119125-69d2be0c-ccf8-4947-a355-d24dad479140.png" width="100%" crossorigin></p></td>
+<td><p align="center"><img src="https://user-images.githubusercontent.com/111654848/226119129-443e713a-92ca-4504-9fa2-0a5f0fa4ee48.png" width="100%" crossorigin></p></td>
 <td><p align="center"><img src="https://user-images.githubusercontent.com/111654848/226115420-47241aa7-71d5-492b-9bb4-a049e3a3ad92.png" width="100%" crossorigin></p></td>
-<td><p align="center"><img src="https://user-images.githubusercontent.com/111654848/226115422-cb022f05-3795-4d20-87f6-c5b48b742568.png" width="100%" crossorigin></p></td>
+<td><p align="center"><img src="https://user-images.githubusercontent.com/111654848/226119178-2d354c15-1f98-4eb4-abe4-2631024a6d68.png" width="100%" crossorigin></p></td>
 </tr>
 </table>
 </p>
