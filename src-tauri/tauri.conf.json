@@ -21,6 +21,7 @@
         "all": true
       },
       "fs": {
+        "all": true,
         "scope": [
           "$RESOURCE/*"
         ]
