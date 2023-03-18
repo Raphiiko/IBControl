@@ -3,7 +3,8 @@
     windows_subsystem = "windows"
 )]
 
-use std::{net::UdpSocket, path::PathBuf, sync::Mutex};
+use std::path::PathBuf;
+use std::{fs, net::UdpSocket, sync::Mutex};
 
 use background::openvr::OpenVRManager;
 use log::LevelFilter;
@@ -34,6 +35,23 @@ mod commands {
     pub mod http;
     pub mod openvr;
     pub mod osc;
+}
+
+fn copy_dir(src: &PathBuf, dst: &PathBuf) -> std::io::Result<()> {
+    if !dst.exists() {
+        fs::create_dir(&dst)?;
+    }
+    for entry in fs::read_dir(&src)? {
+        let entry = entry?;
+        let path = entry.path();
+        let new_path = dst.join(path.file_name().unwrap());
+        if entry.file_type()?.is_dir() {
+            copy_dir(&path, &new_path)?;
+        } else {
+            fs::copy(&path, &new_path)?;
+        }
+    }
+    Ok(())
 }
 
 fn main() {
@@ -75,12 +93,15 @@ fn main() {
                 window.open_devtools();
             }
             *TAURI_WINDOW.lock().unwrap() = Some(window);
+            // Copy over swagger ui
+            let swagger_ui_src = app
+                .path_resolver()
+                .resolve_resource("_up_/swagger/")
+                .unwrap();
+            let swagger_ui_dest = app.path_resolver().app_data_dir().unwrap().join("swagger/");
+            copy_dir(&swagger_ui_src, &swagger_ui_dest).unwrap();
             // Get swagger ui path
-            *SWAGGER_INDEX_PATH.lock().unwrap() = Some(
-                app.path_resolver()
-                    .resolve_resource("_up_/swagger/")
-                    .unwrap_or(PathBuf::from("")),
-            );
+            *SWAGGER_INDEX_PATH.lock().unwrap() = Some(swagger_ui_dest);
             // Initialize OpenVR Manager
             let openvr_manager = OpenVRManager::new();
             openvr_manager.set_active(true);
