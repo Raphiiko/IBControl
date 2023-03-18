@@ -83,10 +83,12 @@ export class OscControlService {
     if (!(await firstValueFrom(this.brightnessControl.driverIsAvailable())))
       return;
     const bounds = await this.brightnessControl.getBrightnessBounds();
-    const brightness = clamp(
-      (oscValue as OSCIntValue | OSCFloatValue).value,
-      bounds[0],
-      bounds[1]
+    const brightness = Math.round(
+      clamp(
+        (oscValue as OSCIntValue | OSCFloatValue).value,
+        bounds[0],
+        bounds[1]
+      )
     );
     await this.brightnessControl.setBrightness(brightness, 'OSC_CONTROL');
   }
