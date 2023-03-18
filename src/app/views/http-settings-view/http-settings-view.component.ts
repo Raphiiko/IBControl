@@ -3,6 +3,7 @@ import {
   combineLatest,
   debounceTime,
   distinctUntilChanged,
+  firstValueFrom,
   map,
   of,
   startWith,
@@ -19,6 +20,7 @@ import {
 import { AppSettingsService } from '../../services/app-settings.service';
 import { HttpControlService } from '../../services/http-control.service';
 import { hshrink, vshrink } from '../../utils/animations';
+import { APP_SETTINGS_DEFAULT } from '../../models/settings';
 
 @Component({
   selector: 'app-http-settings-view',
@@ -47,13 +49,21 @@ export class HttpSettingsViewComponent implements OnInit, OnDestroy {
     invalidHost:
       'The host has to be a valid hostname, IPv4 address, or IPv6 address.',
   };
+  swaggerUrl = '';
+  httpControlEnabled = false;
 
   constructor(
-    private settingsService: AppSettingsService,
+    protected appSettings: AppSettingsService,
     private httpControl: HttpControlService
   ) {}
 
-  resetDefaults() {}
+  resetDefaults() {
+    this.appSettings.updateSettings({
+      httpControlEnabled: APP_SETTINGS_DEFAULT.httpControlEnabled,
+    });
+    this.httpControlHostChange.next(APP_SETTINGS_DEFAULT.httpControlHost);
+    this.httpControlPortChange.next(APP_SETTINGS_DEFAULT.httpControlPort + '');
+  }
 
   ngOnInit() {
     this.listenForHttpControlHostChanges();
@@ -65,8 +75,15 @@ export class HttpSettingsViewComponent implements OnInit, OnDestroy {
     this.destroy$.next();
   }
 
+  async toggleHTTPControl() {
+    const settings = await firstValueFrom(this.appSettings.settings);
+    this.appSettings.updateSettings({
+      httpControlEnabled: !settings.httpControlEnabled,
+    });
+  }
+
   listenForSettingsChanges() {
-    this.settingsService.settings
+    this.appSettings.settings
       .pipe(takeUntil(this.destroy$))
       .subscribe((settings) => {
         if (settings.httpControlHost !== this.httpControlHost) {
@@ -77,6 +94,8 @@ export class HttpSettingsViewComponent implements OnInit, OnDestroy {
           this.httpControlPort = settings.httpControlPort;
           this.httpControlPortChange.next(this.httpControlPort + '');
         }
+        this.swaggerUrl = `http://${settings.httpControlHost}:${settings.httpControlPort}/`;
+        this.httpControlEnabled = settings.httpControlEnabled;
       });
   }
 
@@ -120,7 +139,7 @@ export class HttpSettingsViewComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         switchMap((value) =>
           combineLatest([
-            this.settingsService.settings.pipe(
+            this.appSettings.settings.pipe(
               map((settings) => settings.httpControlHost),
               startWith(this.httpControlHost),
               distinctUntilChanged()

@@ -15,6 +15,22 @@
   <div class="settings-pane">
     <div class="setting-row">
       <div class="setting-label">
+        <span>Enable HTTP Control</span>
+        <span>Allow display brightness to be controlled over HTTP</span>
+      </div>
+      <div class="setting-value">
+        <label class="switch-toggle">
+          <input
+            type="checkbox"
+            [checked]="(appSettings.settings | async)?.httpControlEnabled"
+            (change)="toggleHTTPControl()"
+          />
+          <span class="switch-toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+    <div class="setting-row">
+      <div class="setting-label">
         <span>HTTP Server Host</span>
         <span>The host IBControl will listen for HTTP requests on.</span>
       </div>
@@ -113,6 +129,15 @@
         <div class="alert-content">
           {{ errorMessages[httpControlPortError] }}
         </div>
+      </div>
+    </div>
+    <div class="setting-row">
+      <div class="setting-label">
+        <span>API Documentation</span>
+        <span>View the API documentation in Swagger</span>
+      </div>
+      <div class="setting-value">
+        <a [href]="swaggerUrl" target="_blank" class="btn btn-primary" [class.disabled]="!httpControlEnabled || !swaggerUrl">Open Documentation</a>
       </div>
     </div>
   </div>

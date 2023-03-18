@@ -17,6 +17,7 @@ import { VarDirective } from './directives/var.directive';
 import { ImageFallbackDirective } from './directives/image-fallback.directive';
 import { HttpSettingsViewComponent } from './views/http-settings-view/http-settings-view.component';
 import { HttpControlService } from './services/http-control.service';
+import { AboutViewComponent } from './views/about-view/about-view.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -29,6 +30,7 @@ import { HttpControlService } from './services/http-control.service';
     VarDirective,
     ImageFallbackDirective,
     HttpSettingsViewComponent,
+    AboutViewComponent,
   ],
   imports: [
     CommonModule,
