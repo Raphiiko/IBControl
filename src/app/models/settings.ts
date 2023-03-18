@@ -8,6 +8,7 @@ export interface AppSettings {
   httpControlEnabled: boolean;
   oscVRCControlRange: [number, number];
   httpControlPort: number;
+  httpControlHost: string;
 }
 
 export const APP_SETTINGS_DEFAULT: AppSettings = {
@@ -19,5 +20,6 @@ export const APP_SETTINGS_DEFAULT: AppSettings = {
   oscControlEnabled: true,
   oscVRCControlRange: [20, 160],
   httpControlEnabled: false,
-  httpControlPort: 69421,
+  httpControlPort: 42070,
+  httpControlHost: '127.0.0.1',
 };

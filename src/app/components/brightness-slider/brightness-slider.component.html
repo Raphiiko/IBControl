@@ -1,4 +1,4 @@
-<div class="container" #containerEl>
+<div class="container" #containerEl [class.disabled]="disabled | async">
   <div class="track" #trackEl>
     <div class="track-100-mark" #markEl [style.left]="markOffsetStyle"></div>
   </div>

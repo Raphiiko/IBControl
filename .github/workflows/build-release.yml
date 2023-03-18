@@ -5,6 +5,8 @@ on:
       - master
       - main
 
+permissions: write-all
+
 jobs:
   build-release:
     strategy:
@@ -56,6 +58,6 @@ jobs:
           TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
         with:
           tagName: ibcontrol-v${{ steps.get-package-version.outputs.version }}
-          releaseName: Oyasumi v${{ steps.get-package-version.outputs.version }}
+          releaseName: IBControl v${{ steps.get-package-version.outputs.version }}
           releaseBody: ${{ steps.changelog_reader.outputs.changes }}
           releaseDraft: false

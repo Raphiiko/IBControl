@@ -14,6 +14,8 @@ on:
       - package.json
       - CHANGELOG.md
 
+permissions: write-all
+
 jobs:
   build-dev-release:
     concurrency:
@@ -61,7 +63,7 @@ jobs:
             src-elevated-sidecar
             src-tauri
       - name: Delete new development release and tag if they exist
-        uses: dev-drprasad/delete-tag-and-release@v0.2.0
+        uses: dev-drprasad/delete-tag-and-release@v0.2.1
         continue-on-error: true
         with:
           delete_release: true
@@ -75,7 +77,7 @@ jobs:
           TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
         with:
           tagName: ibcontrol-vDEV-new
-          releaseName: Oyasumi Development Build
+          releaseName: IBControl Development Build
           releaseBody: ${{ steps.changelog_reader.outputs.changes }}
           releaseDraft: false
           prerelease: true
@@ -105,7 +107,7 @@ jobs:
             })
             return release.data.id
       - name: Delete current development release and tag if they exist
-        uses: dev-drprasad/delete-tag-and-release@v0.2.0
+        uses: dev-drprasad/delete-tag-and-release@v0.2.1
         continue-on-error: true
         with:
           delete_release: true # default: false
@@ -129,7 +131,7 @@ jobs:
               tag_name: "ibcontrol-vDEV"
             })
       - name: Delete temporary development tag
-        uses: dev-drprasad/delete-tag-and-release@v0.2.0
+        uses: dev-drprasad/delete-tag-and-release@v0.2.1
         with:
           tag_name: ibcontrol-vDEV-new
         env:

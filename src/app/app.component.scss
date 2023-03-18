@@ -1,0 +1,17 @@
+:host {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.container {
+  flex: 1;
+  //overflow-y: overlay;
+  overflow: hidden;
+}
+
+app-main-status-bar {
+  flex-shrink: 0;
+}

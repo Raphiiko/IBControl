@@ -1,0 +1,51 @@
+<div class="top-decoration left"><div></div></div>
+<div class="top-decoration right"><div></div></div>
+<div class="main-bar" @noop>
+  <div class="left">
+
+  </div>
+  <div class="right">
+
+    <div
+      class="pill index-status"
+      *ngVar="{ hover: false }; let state"
+      (mouseenter)="state.hover = true"
+      (mouseleave)="state.hover = false"
+    >
+      <div
+        class="pill-icon"
+        @hshrink
+        *ngIf="['INACTIVE', 'INITIALIZED'].includes((openvr.status | async) ?? '')"
+      >
+        <img draggable="false" src="/assets/img/index_icon.png"/>
+      </div>
+      <span @hshrink *ngIf="state.hover">{{ 'Index HMD' }}:&nbsp;</span>
+      <span>{{ indexStatusLabels[indexStatus] }}</span>
+    </div>
+
+    <div
+      class="pill steamvr-status"
+      *ngVar="{ hover: false }; let state"
+      (mouseenter)="state.hover = true"
+      (mouseleave)="state.hover = false"
+    >
+      <div
+        class="pill-icon"
+        @hshrink
+        *ngIf="['INACTIVE', 'INITIALIZED'].includes((openvr.status | async) ?? '')"
+      >
+        <img draggable="false" src="/assets/img/steamvr_icon.png"/>
+      </div>
+      <div
+        class="pill-icon"
+        @hshrink
+        *ngIf="['INITIALIZING'].includes((openvr.status | async) ?? '')"
+      >
+        <div class="small-spinner"></div>
+      </div>
+      <span @hshrink *ngIf="state.hover">{{ 'SteamVR' }}:&nbsp;</span>
+      <span>{{ steamVRStatusLabels[(openvr.status | async) ?? ''] }}</span>
+    </div>
+
+  </div>
+</div>

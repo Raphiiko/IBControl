@@ -12,6 +12,12 @@ import { BrightnessSliderComponent } from './components/brightness-slider/bright
 import { OscSettingsViewComponent } from './views/osc-settings-view/osc-settings-view.component';
 import { OscControlService } from './services/osc-control.service';
 import { BrightnessControlService } from './services/brightness-control/brightness-control.service';
+import { MainStatusBarComponent } from './components/main-status-bar/main-status-bar.component';
+import { VarDirective } from './directives/var.directive';
+import { ImageFallbackDirective } from './directives/image-fallback.directive';
+import { HttpSettingsViewComponent } from './views/http-settings-view/http-settings-view.component';
+import { HttpControlService } from './services/http-control.service';
+import { AboutViewComponent } from './views/about-view/about-view.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -20,6 +26,11 @@ import { BrightnessControlService } from './services/brightness-control/brightne
     DashboardViewComponent,
     BrightnessSliderComponent,
     OscSettingsViewComponent,
+    MainStatusBarComponent,
+    VarDirective,
+    ImageFallbackDirective,
+    HttpSettingsViewComponent,
+    AboutViewComponent,
   ],
   imports: [
     CommonModule,
@@ -35,7 +46,8 @@ export class AppModule {
     private appSettingsService: AppSettingsService,
     private oscService: OscService,
     private oscControl: OscControlService,
-    private brightnessControl: BrightnessControlService
+    private brightnessControl: BrightnessControlService,
+    private httpControl: HttpControlService
   ) {
     this.init();
   }
@@ -45,6 +57,7 @@ export class AppModule {
     await this.openvr.init();
     await this.brightnessControl.init();
     await this.oscService.init();
+    await this.httpControl.init();
     await this.oscControl.init();
   }
 }

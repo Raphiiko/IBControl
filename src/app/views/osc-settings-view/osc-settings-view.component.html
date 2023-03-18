@@ -1,19 +1,45 @@
-<div class="content">
-  <div class="header">
-    <div class="row">
-      <button class="btn btn-secondary" [routerLink]="['/dashboard']">
-        <i class="material-icons" style="font-size: 1em">arrow_back_ios</i>
-        <span>Back</span>
-      </button>
-      <span>&nbsp;|&nbsp;</span>
-      <button class="btn btn-secondary" (click)="resetDefaults()">
-        <span>Reset to Defaults</span>
-      </button>
-    </div>
-    <span class="title">OSC Control Settings</span>
+<div class="header">
+  <div class="row">
+    <button class="btn btn-secondary" [routerLink]="['/dashboard']">
+      <i class="material-icons" style="font-size: 1em">arrow_back_ios</i>
+      <span>Back</span>
+    </button>
+    <span>&nbsp;|&nbsp;</span>
+    <button class="btn btn-secondary" (click)="resetDefaults()">
+      <span>Reset to Defaults</span>
+    </button>
   </div>
+  <span class="title">OSC Control Settings</span>
+</div>
+<div class="scrolling-area">
   <div class="settings-pane">
     <div class="setting-row">
+      <div class="setting-label">
+        <span>Enable OSC Control</span>
+        <span>Allow display brightness to be controlled over OSC</span>
+      </div>
+      <div class="setting-value">
+        <label class="switch-toggle">
+          <input
+            type="checkbox"
+            [checked]="(appSettings.settings | async)?.oscControlEnabled"
+            (change)="toggleOSCControl()"
+          />
+          <span class="switch-toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+    <div class="setting-row">
+      <div class="setting-label">
+        <span>VRChat Avatar Menu</span>
+        <span>Read how to add IBControl to your VRChat avatar</span>
+      </div>
+      <div class="setting-value">
+        <a href="https://github.com/Raphiiko/IBControl/wiki/VRChat-Avatar-Menu" target="_blank" class="btn btn-primary">Open
+          How-to</a>
+      </div>
+    </div>
+    <div class="setting-row" [class.disabled]="!(driverAvailable | async)">
       <div class="setting-label">
         <span>VRChat Brightness Range</span>
         <span>Limit the range of brightness you can control from VRChat.</span>
@@ -51,7 +77,7 @@
       <div class="setting-label">
         <span>Receiving Host</span>
         <span
-          >The host IBControl will listen for OSC messages on.<br />(VRChat
+        >The host IBControl will listen for OSC messages on.<br/>(VRChat
           sends to 127.0.0.1 by default)</span
         >
       </div>
@@ -61,14 +87,14 @@
           class="material-icons-round"
           style="color: var(--color-vrchat-status-green)"
           *ngIf="oscReceivingHostStatus === 'OK'"
-          >check</i
+        >check</i
         >
         <i
           @hshrink
           class="material-icons-round"
           style="color: var(--color-vrchat-status-red)"
           *ngIf="oscReceivingHostStatus === 'ERROR'"
-          >error</i
+        >error</i
         >
         <div
           @hshrink
@@ -104,7 +130,7 @@
       <div class="setting-label">
         <span>Receiving Port</span>
         <span
-          >The port number IBControl will listen for OSC messages on.<br />(VRChat
+        >The port number IBControl will listen for OSC messages on.<br/>(VRChat
           sends to port 9001 by default)</span
         >
       </div>
@@ -114,14 +140,14 @@
           class="material-icons-round"
           style="color: var(--color-vrchat-status-green)"
           *ngIf="oscReceivingPortStatus === 'OK'"
-          >check</i
+        >check</i
         >
         <i
           @hshrink
           class="material-icons-round"
           style="color: var(--color-vrchat-status-red)"
           *ngIf="oscReceivingPortStatus === 'ERROR'"
-          >error</i
+        >error</i
         >
         <div
           @hshrink
@@ -159,7 +185,7 @@
       <div class="setting-label">
         <span>Sending Host</span>
         <span
-          >The host IBControl will send OSC messages to.<br />(If VRChat runs on
+        >The host IBControl will send OSC messages to.<br/>(If VRChat runs on
           the same machine, this is 127.0.0.1)</span
         >
       </div>
@@ -169,14 +195,14 @@
           class="material-icons-round"
           style="color: var(--color-vrchat-status-green)"
           *ngIf="oscSendingHostStatus === 'OK'"
-          >check</i
+        >check</i
         >
         <i
           @hshrink
           class="material-icons-round"
           style="color: var(--color-vrchat-status-red)"
           *ngIf="oscSendingHostStatus === 'ERROR'"
-          >error</i
+        >error</i
         >
         <div
           @hshrink
@@ -212,7 +238,7 @@
       <div class="setting-label">
         <span>Sending Port</span>
         <span
-          >The port number Oyasumi will send OSC messages to.<br />(VRChat
+        >The port number Oyasumi will send OSC messages to.<br/>(VRChat
           listens on port 9000 by default)</span
         >
       </div>
@@ -222,14 +248,14 @@
           class="material-icons-round"
           style="color: var(--color-vrchat-status-green)"
           *ngIf="oscSendingPortStatus === 'OK'"
-          >check</i
+        >check</i
         >
         <i
           @hshrink
           class="material-icons-round"
           style="color: var(--color-vrchat-status-red)"
           *ngIf="oscSendingPortStatus === 'ERROR'"
-          >error</i
+        >error</i
         >
         <div
           @hshrink
@@ -261,6 +287,16 @@
         <div class="alert-content">
           {{ errorMessages[oscSendingPortError] }}
         </div>
+      </div>
+    </div>
+    <div class="setting-row">
+      <div class="setting-label">
+        <span>OSC Control Documentation</span>
+        <span>View the documentation on OSC Control</span>
+      </div>
+      <div class="setting-value">
+        <a href="https://github.com/Raphiiko/IBControl/wiki/OSC-Control" target="_blank" class="btn btn-primary">Open
+          Documentation</a>
       </div>
     </div>
   </div>

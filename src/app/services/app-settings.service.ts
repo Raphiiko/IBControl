@@ -61,11 +61,12 @@ export class AppSettingsService {
     await this.store.save();
   }
 
-  updateSettings(settings: Partial<AppSettings>) {
+  updateSettings(settings: Partial<AppSettings>): AppSettings {
     const newSettings = Object.assign(
       cloneDeep(this._settings.value),
       settings
     );
     this._settings.next(newSettings);
+    return newSettings;
   }
 }

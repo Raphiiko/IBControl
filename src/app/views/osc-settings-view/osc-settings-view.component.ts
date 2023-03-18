@@ -4,7 +4,9 @@ import {
   combineLatest,
   debounceTime,
   distinctUntilChanged,
+  firstValueFrom,
   map,
+  Observable,
   of,
   startWith,
   Subject,
@@ -70,12 +72,15 @@ export class OscSettingsViewComponent implements OnInit, OnDestroy {
     invalidHost:
       'The host has to be a valid hostname, IPv4 address, or IPv6 address.',
   };
+  protected driverAvailable?: Observable<boolean>;
 
   constructor(
-    private settingsService: AppSettingsService,
+    protected appSettings: AppSettingsService,
     private osc: OscService,
-    private brightnessControl: BrightnessControlService
-  ) {}
+    protected brightnessControl: BrightnessControlService
+  ) {
+    this.driverAvailable = this.brightnessControl.driverIsAvailable();
+  }
 
   ngOnInit() {
     this.listenForReceivingHostChanges();
@@ -90,8 +95,15 @@ export class OscSettingsViewComponent implements OnInit, OnDestroy {
     this.destroy$.next();
   }
 
+  async toggleOSCControl() {
+    const settings = await firstValueFrom(this.appSettings.settings);
+    this.appSettings.updateSettings({
+      httpControlEnabled: !settings.httpControlEnabled,
+    });
+  }
+
   listenForSettingsChanges() {
-    this.settingsService.settings
+    this.appSettings.settings
       .pipe(takeUntil(this.destroy$))
       .subscribe((settings) => {
         if (
@@ -140,8 +152,9 @@ export class OscSettingsViewComponent implements OnInit, OnDestroy {
         map(([min, max]) => [parseInt(min), parseInt(max)])
       )
       .subscribe(async ([min, max]) => {
-        const bounds =
-          await this.brightnessControl.driver!.getBrightnessBounds();
+        if (!(await firstValueFrom(this.brightnessControl.driverIsAvailable())))
+          return;
+        const bounds = await this.brightnessControl.getBrightnessBounds();
         min = clamp(min, bounds[0], bounds[1]);
         max = clamp(max, bounds[0], bounds[1]);
         if (min > max) {
@@ -154,7 +167,7 @@ export class OscSettingsViewComponent implements OnInit, OnDestroy {
         }
         this.vrchatBrightnessRangeMin = min;
         this.vrchatBrightnessRangeMax = max;
-        this.settingsService.updateSettings({
+        this.appSettings.updateSettings({
           oscVRCControlRange: [min, max],
         });
       });
@@ -193,7 +206,7 @@ export class OscSettingsViewComponent implements OnInit, OnDestroy {
         // Save new host
         this.oscReceivingHost = host;
         this.oscReceivingHostStatus = 'OK';
-        this.settingsService.updateSettings({
+        this.appSettings.updateSettings({
           oscReceivingHost: host,
         });
       });
@@ -226,7 +239,7 @@ export class OscSettingsViewComponent implements OnInit, OnDestroy {
         // Save new host
         this.oscSendingHost = host;
         this.oscSendingHostStatus = 'OK';
-        this.settingsService.updateSettings({
+        this.appSettings.updateSettings({
           oscSendingHost: host,
         });
       });
@@ -239,7 +252,7 @@ export class OscSettingsViewComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         switchMap((value) =>
           combineLatest([
-            this.settingsService.settings.pipe(
+            this.appSettings.settings.pipe(
               map((settings) => settings.oscSendingPort),
               startWith(this.oscSendingPort),
               distinctUntilChanged()
@@ -279,7 +292,7 @@ export class OscSettingsViewComponent implements OnInit, OnDestroy {
         // Save new port
         this.oscReceivingPort = port;
         this.oscReceivingPortStatus = 'OK';
-        this.settingsService.updateSettings({
+        this.appSettings.updateSettings({
           oscReceivingPort: port,
         });
       });
@@ -292,7 +305,7 @@ export class OscSettingsViewComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         switchMap((value) =>
           combineLatest([
-            this.settingsService.settings.pipe(
+            this.appSettings.settings.pipe(
               map((settings) => settings.oscReceivingPort),
               startWith(this.oscReceivingPort),
               distinctUntilChanged()
@@ -326,13 +339,16 @@ export class OscSettingsViewComponent implements OnInit, OnDestroy {
         // Save new port
         this.oscSendingPort = port;
         this.oscSendingPortStatus = 'OK';
-        this.settingsService.updateSettings({
+        this.appSettings.updateSettings({
           oscSendingPort: port,
         });
       });
   }
 
   resetDefaults() {
+    this.appSettings.updateSettings({
+      oscControlEnabled: APP_SETTINGS_DEFAULT.oscControlEnabled,
+    });
     this.vrchatBrightnessRangeMinChange.next(
       APP_SETTINGS_DEFAULT.oscVRCControlRange[0] + ''
     );

@@ -59,8 +59,9 @@ export class OscControlService {
     settings?: AppSettings
   ) {
     if (oscValue.kind !== 'float') return;
-    if (!(await this.brightnessControl.driverIsAvailable())) return;
-    const bounds = await this.brightnessControl.driver!.getBrightnessBounds();
+    if (!(await firstValueFrom(this.brightnessControl.driverIsAvailable())))
+      return;
+    const bounds = await this.brightnessControl.getBrightnessBounds();
     settings ??= await firstValueFrom(this.appSettings.settings);
     const radialValue = clamp(oscValue.value, 0.0, 1.0); // 0.0 - 1.0
     const brightness = clamp(
@@ -79,12 +80,15 @@ export class OscControlService {
 
   private async handleBrightness(oscValue: OSCValue) {
     if (!['float', 'int'].includes(oscValue.kind)) return;
-    if (!(await this.brightnessControl.driverIsAvailable())) return;
-    const bounds = await this.brightnessControl.driver!.getBrightnessBounds();
-    const brightness = clamp(
-      (oscValue as OSCIntValue | OSCFloatValue).value,
-      bounds[0],
-      bounds[1]
+    if (!(await firstValueFrom(this.brightnessControl.driverIsAvailable())))
+      return;
+    const bounds = await this.brightnessControl.getBrightnessBounds();
+    const brightness = Math.round(
+      clamp(
+        (oscValue as OSCIntValue | OSCFloatValue).value,
+        bounds[0],
+        bounds[1]
+      )
     );
     await this.brightnessControl.setBrightness(brightness, 'OSC_CONTROL');
   }

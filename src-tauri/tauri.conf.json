@@ -19,6 +19,11 @@
       },
       "notification": {
         "all": true
+      },
+      "fs": {
+        "scope": [
+          "$RESOURCE/*"
+        ]
       }
     },
     "bundle": {
@@ -45,7 +50,9 @@
         "providerShortName": null,
         "signingIdentity": null
       },
-      "resources": [],
+      "resources": [
+        "../swagger/*"
+      ],
       "shortDescription": "",
       "targets": "all",
       "windows": {

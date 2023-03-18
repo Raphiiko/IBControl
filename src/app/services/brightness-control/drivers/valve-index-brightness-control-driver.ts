@@ -2,7 +2,7 @@ import { BrightnessControlDriver } from './brightness-control-driver';
 import { invoke } from '@tauri-apps/api';
 import { clamp, ensureDecimals, lerp } from '../../../utils/number-utils';
 import { OpenVRService } from '../../openvr.service';
-import { firstValueFrom } from 'rxjs';
+import { combineLatest, map, Observable } from 'rxjs';
 
 export class ValveIndexBrightnessControlDriver extends BrightnessControlDriver {
   constructor(private openvr: OpenVRService) {
@@ -26,17 +26,17 @@ export class ValveIndexBrightnessControlDriver extends BrightnessControlDriver {
     await invoke('openvr_set_analog_gain', { analogGain });
   }
 
-  async isAvailable(): Promise<boolean> {
-    const [openvrStatus, devices] = await Promise.all([
-      firstValueFrom(this.openvr.status),
-      firstValueFrom(this.openvr.devices),
-    ]);
-    const hmd = devices.find((d) => d.class === 'HMD');
-    return (
-      openvrStatus === 'INITIALIZED' &&
-      !!hmd &&
-      hmd.manufacturerName === 'Valve' &&
-      hmd.modelNumber === 'Index'
+  isAvailable(): Observable<boolean> {
+    return combineLatest([this.openvr.status, this.openvr.devices]).pipe(
+      map(([status, devices]) => {
+        const hmd = devices.find((d) => d.class === 'HMD');
+        return (
+          status === 'INITIALIZED' &&
+          !!hmd &&
+          hmd.manufacturerName === 'Valve' &&
+          hmd.modelNumber === 'Index'
+        );
+      })
     );
   }
 

@@ -1,0 +1,171 @@
+$decoration-top: 1em;
+$background-color: var(--color-surface-2);
+
+:host {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  margin-top: #{-$decoration-top};
+  position: relative;
+}
+
+.top-decoration {
+  position: absolute;
+  height: $decoration-top;
+  width: $decoration-top;
+  overflow: hidden;
+  top: calc($decoration-top * -1);
+
+  &>div {
+    height: $decoration-top;
+    width: $decoration-top;
+    position: relative;
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      width: 200%;
+      height: 200%;
+      border-radius: 100%;
+      box-shadow: 0 $decoration-top 0 $decoration-top $background-color;
+    }
+  }
+
+  &.left {
+    left: 0;
+    &>div::before {
+
+    }
+  }
+
+  &.right {
+    right: 0;
+    &>div::before {
+      right: 0;
+    }
+  }
+}
+
+.main-bar {
+  width: 100%;
+  background: $background-color;
+  color: var(--color-text-0);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .left,
+  .right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0.4em;
+  }
+
+  .left {
+    flex: 1;
+
+    .pill {
+      &:not(:first-child) {
+        margin-left: 0.5em;
+      }
+    }
+  }
+
+  .right {
+    flex-shrink: 0;
+
+    .pill {
+      &:not(:last-child) {
+        margin-right: 0.5em;
+      }
+    }
+  }
+}
+
+.pill {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-radius: 0.25em;
+  background: var(--color-surface-0);
+  color: var(--color-text-1);
+  padding: 0.25em 0.5em;
+  font-size: 0.95em;
+  height: 2em;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+
+  &.clickable {
+    cursor: pointer;
+
+    &:active {
+      opacity: 0.6;
+    }
+  }
+
+  span {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    justify-content: center;
+  }
+
+  &-icon {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.25em;
+    overflow: hidden;
+
+    i {
+      font-size: 1.25em;
+      transition: all 0.15s ease;
+      opacity: 0.5;
+    }
+
+    img {
+      height: 1.5em;
+      margin: 0;
+    }
+
+    .small-spinner {
+      //margin-left: -0.25em;
+      //margin-right: 0.25em;
+      width: 1.5em;
+      height: 1.5em;
+
+      &:after {
+        width: 0.75em;
+        height: 0.75em;
+        margin: 0.15em;
+      }
+    }
+  }
+}
+
+.sleep-mode,
+.vrc-status,
+.steamvr-status {
+  span:not(:last-child) {
+    opacity: 0.5;
+  }
+}
+
+.vrc-status {
+  i {
+    opacity: 1;
+  }
+}
+
+.sleep-mode {
+  border: 0.125em solid transparent;
+  padding: 0 0.25em;
+  transition: all 0.15s ease;
+
+  &.active {
+    border-color: var(--color-primary);
+  }
+}
