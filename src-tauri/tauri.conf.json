@@ -3,7 +3,7 @@
     "beforeDevCommand": "npm run start",
     "beforeBuildCommand": "npm run build",
     "devPath": "http://localhost:4200",
-    "distDir": "../dist",
+    "distDir": "../dist/ibcontrol",
     "withGlobalTauri": false
   },
   "package": {
