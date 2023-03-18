@@ -1,5 +1,9 @@
 
 <h1 align="center">IBControl</h1>
+<p align="center">
+<img width="200px" src="https://user-images.githubusercontent.com/111654848/226119236-e8baaca8-961f-4046-829a-d022447975db.png">
+</p>
+
 <h3 align="center">Display brightness control for Valve Index</h2>
 
 <p align="center">
