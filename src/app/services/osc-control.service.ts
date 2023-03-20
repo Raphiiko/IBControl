@@ -26,11 +26,13 @@ export class OscControlService {
       // Skip if OSC control is disabled
       const settings = await firstValueFrom(this.appSettings.settings);
       if (!settings.oscControlEnabled) return;
-      switch (message.address) {
+      let address = message.address;
+      if (address.endsWith('/')) address = address.slice(0, -1);
+      switch (address) {
         case '/avatar/parameters/IBControl/Brightness':
           await this.handleVRChatBrightness(message.values[0], settings);
           break;
-        case '/IBControl/Brightness/':
+        case '/IBControl/Brightness':
           await this.handleBrightness(message.values[0]);
           break;
         case '/avatar/change':
