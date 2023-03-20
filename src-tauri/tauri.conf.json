@@ -8,7 +8,7 @@
   },
   "package": {
     "productName": "IBControl",
-    "version": "1.0.0"
+    "version": "1.0.1"
   },
   "tauri": {
     "allowlist": {
@@ -80,7 +80,7 @@
         "width": 600,
         "resizable": false,
         "title": "IBControl",
-        "userAgent": "IBControl/1.0.0 (https://github.com/Raphiiko/IBControl)",
+        "userAgent": "IBControl/1.0.1 (https://github.com/Raphiiko/IBControl)",
         "transparent": true,
         "center": true,
         "theme": "Dark"
