@@ -47,6 +47,13 @@ IBControl allows you to control the display brightness of your Valve Index in a 
 - :globe_with_meridians: Over [HTTP](https://github.com/Raphiiko/IBControl/wiki/HTTP-Control)
 - :low_brightness: Directly from the main window
 
+## Examples
+
+Here you can find some examples of using IBControl's control methods for various purposes.
+
+- [Adaptive Brightness](https://gist.github.com/Raphiiko/20ab0137cc4734246fe9b08c3b72384a) (Rust)
+  <br>Continuously adjust the backlight based on the brightness of the image shown in the headset
+
 ## Built With
 
 IBControl has been built with [Angular](https://angular.io/) and [Tauri](https://tauri.app/).
