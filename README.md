@@ -1,4 +1,7 @@
-
+<h1>Note: This project is deprecated, and is no longer maintained.</h1>
+<h3>Most of its functionality has been integrated and expanded upon within <a href="https://github.com/Raphiiko/OyasumiVR">OyasumiVR</a>.</h3>
+  
+<hr>
 <h1 align="center">IBControl</h1>
 <h3 align="center">Display brightness control for Valve Index</h2>
 <p align="center">
